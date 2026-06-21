@@ -1,0 +1,253 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-mono); }
+  .root { padding: 1.5rem 0; max-width: 860px; }
+  .hero { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .name { font-family: var(--font-sans); font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .tagline-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+  .cursor { display: inline-block; width: 2px; height: 1em; background: var(--color-text-primary); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .tagline { font-size: 14px; color: var(--color-text-secondary); font-family: var(--font-mono); }
+  .bio { font-family: var(--font-sans); font-size: 15px; color: var(--color-text-secondary); line-height: 1.7; max-width: 640px; margin-bottom: 1.25rem; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-size: 12px; font-family: var(--font-mono); padding: 4px 10px; border-radius: 20px; border: 0.5px solid; }
+  .pill-teal { background: #E1F5EE; color: #0F6E56; border-color: #5DCAA5; }
+  .pill-blue { background: #E6F1FB; color: #185FA5; border-color: #85B7EB; }
+  .pill-amber { background: #FAEEDA; color: #854F0B; border-color: #EF9F27; }
+  .pill-purple { background: #EEEDFE; color: #534AB7; border-color: #AFA9EC; }
+  .pill-coral { background: #FAECE7; color: #993C1D; border-color: #F0997B; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; margin-top: 2rem; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .proj-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; transition: border-color 0.15s; cursor: default; }
+  .proj-card:hover { border-color: var(--color-border-secondary); }
+  .proj-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .proj-name { font-family: var(--font-sans); font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .status-live { font-size: 11px; font-family: var(--font-mono); background: #EAF3DE; color: #3B6D11; border: 0.5px solid #97C459; padding: 2px 8px; border-radius: 10px; }
+  .status-dev { font-size: 11px; font-family: var(--font-mono); background: #FAEEDA; color: #854F0B; border: 0.5px solid #EF9F27; padding: 2px 8px; border-radius: 10px; }
+  .proj-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 10px; font-family: var(--font-sans); }
+  .stack-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 11px; font-family: var(--font-mono); color: var(--color-text-tertiary); background: var(--color-background-secondary); padding: 2px 6px; border-radius: 4px; }
+  .impact-line { font-size: 12px; font-family: var(--font-mono); color: #185FA5; margin-top: 8px; border-left: 2px solid #85B7EB; padding-left: 8px; }
+  .exp-block { border-left: 0.5px solid var(--color-border-tertiary); padding-left: 1.25rem; margin-bottom: 1.5rem; }
+  .exp-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-sans); }
+  .exp-meta { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--font-mono); margin: 3px 0 6px; }
+  .exp-desc { font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-sans); line-height: 1.6; }
+  .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .award-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; display: flex; align-items: flex-start; gap: 10px; }
+  .award-icon { color: var(--color-text-tertiary); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .award-text { font-size: 13px; color: var(--color-text-secondary); font-family: var(--font-sans); line-height: 1.5; }
+  .award-rank { font-size: 11px; font-family: var(--font-mono); color: #854F0B; background: #FAEEDA; padding: 1px 6px; border-radius: 8px; margin-bottom: 3px; display: inline-block; }
+  .certs-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cert-chip { font-size: 12px; font-family: var(--font-mono); padding: 5px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); color: var(--color-text-secondary); background: var(--color-background-secondary); }
+  .cert-score { color: #0F6E56; font-weight: 500; }
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+  .stack-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .stack-cat { }
+  .stack-cat-label { font-size: 11px; font-family: var(--font-mono); color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .stack-items { display: flex; flex-wrap: wrap; gap: 4px; }
+</style>
+
+<div class="root">
+  <div class="hero">
+    <div class="name">Manisha T H</div>
+    <div class="tagline-wrap">
+      <span class="tagline" id="tagline"></span><span class="cursor"></span>
+    </div>
+    <p class="bio">
+      Pre-final year CS + Business Systems student at BMSIT, Bengaluru. I build AI systems that work in production — healthcare claim prediction, maternal health screening, RAG pipelines. Full-stack across the board, strong in ML integration and system design.
+    </p>
+    <div class="pill-row">
+      <span class="pill pill-teal">AI / ML</span>
+      <span class="pill pill-blue">Full-stack</span>
+      <span class="pill pill-purple">Healthcare tech</span>
+      <span class="pill pill-amber">Open to internships</span>
+      <span class="pill pill-coral">Bengaluru · remote-ready</span>
+    </div>
+  </div>
+
+  <div class="section-label">// projects</div>
+  <div class="projects-grid">
+    <div class="proj-card">
+      <div class="proj-header">
+        <div class="proj-name">RCM Claim Denial Prediction</div>
+        <span class="status-live">live</span>
+      </div>
+      <p class="proj-desc">Hybrid Rule Engine + XGBoost system for insurance claim pre-validation. 150+ rules, SHAP explainability, SMOTE balancing.</p>
+      <div class="impact-line">85% denial recall · sub-65ms API · 50% effort cut</div>
+      <div class="stack-row" style="margin-top: 10px;">
+        <span class="tag">Python</span><span class="tag">XGBoost</span><span class="tag">Django REST</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">SHAP</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header">
+        <div class="proj-name">Maahyu — Maternal Wellness</div>
+        <span class="status-live">live</span>
+      </div>
+      <p class="proj-desc">Full-stack platform with EPDS/PHQ-9 screening, AI chatbot, peer community, and postpartum mental health alerts.</p>
+      <div class="impact-line">70% reduction in interaction complexity</div>
+      <div class="stack-row" style="margin-top: 10px;">
+        <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Firebase</span><span class="tag">Gemini API</span><span class="tag">Python</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header">
+        <div class="proj-name">MindBridge — Mental Health RAG</div>
+        <span class="status-live">live</span>
+      </div>
+      <p class="proj-desc">RAG chatbot for students with crisis keyword detection and escalation alerts. TF-IDF retrieval + Gemini API. Graceful fallbacks built in.</p>
+      <div class="impact-line">Flags distress signals in real-time</div>
+      <div class="stack-row" style="margin-top: 10px;">
+        <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Gemini API</span><span class="tag">TF-IDF</span><span class="tag">LangChain</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header">
+        <div class="proj-name">Placement GPS</div>
+        <span class="status-live">live</span>
+      </div>
+      <p class="proj-desc">Personalized placement prep platform with role-based roadmaps, mock interviews, and AI-powered feedback.</p>
+      <div class="impact-line">40% page load cut · 30% feedback accuracy gain</div>
+      <div class="stack-row" style="margin-top: 10px;">
+        <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">OpenAI API</span><span class="tag">Express</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header">
+        <div class="proj-name">Food Ordering System</div>
+        <span class="status-live">complete</span>
+      </div>
+      <p class="proj-desc">College canteen ordering system built twice — once in MySQL, once in MongoDB — as a comparative study of relational vs document-store architecture.</p>
+      <div class="stack-row" style="margin-top: 10px;">
+        <span class="tag">Python</span><span class="tag">MySQL</span><span class="tag">MongoDB</span><span class="tag">HTML/CSS</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header">
+        <div class="proj-name">RAG Chatbot (General)</div>
+        <span class="status-dev">in dev</span>
+      </div>
+      <p class="proj-desc">Production-grade RAG system with vector store retrieval, context-aware generation, and source grounding.</p>
+      <div class="stack-row" style="margin-top: 10px;">
+        <span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Vector DB</span><span class="tag">LLM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">// tech stack</div>
+  <div class="stack-section">
+    <div class="stack-cat">
+      <div class="stack-cat-label">Languages</div>
+      <div class="stack-items">
+        <span class="tag">Python</span><span class="tag">TypeScript</span><span class="tag">JavaScript</span><span class="tag">Java</span><span class="tag">SQL</span><span class="tag">C++</span>
+      </div>
+    </div>
+    <div class="stack-cat">
+      <div class="stack-cat-label">AI / ML</div>
+      <div class="stack-items">
+        <span class="tag">Gemini API</span><span class="tag">OpenAI API</span><span class="tag">LangChain</span><span class="tag">RAG</span><span class="tag">XGBoost</span><span class="tag">SHAP</span><span class="tag">scikit-learn</span>
+      </div>
+    </div>
+    <div class="stack-cat">
+      <div class="stack-cat-label">Frontend</div>
+      <div class="stack-items">
+        <span class="tag">React</span><span class="tag">Vite</span><span class="tag">Tailwind</span><span class="tag">shadcn/ui</span><span class="tag">HTML/CSS</span>
+      </div>
+    </div>
+    <div class="stack-cat">
+      <div class="stack-cat-label">Backend</div>
+      <div class="stack-items">
+        <span class="tag">Node.js</span><span class="tag">Django REST</span><span class="tag">Express</span><span class="tag">Flask</span><span class="tag">FastAPI</span>
+      </div>
+    </div>
+    <div class="stack-cat">
+      <div class="stack-cat-label">Data & Cloud</div>
+      <div class="stack-items">
+        <span class="tag">PostgreSQL</span><span class="tag">MongoDB</span><span class="tag">MySQL</span><span class="tag">Firebase</span><span class="tag">Render</span>
+      </div>
+    </div>
+    <div class="stack-cat">
+      <div class="stack-cat-label">Tools</div>
+      <div class="stack-items">
+        <span class="tag">Git</span><span class="tag">Docker</span><span class="tag">Postman</span><span class="tag">Figma</span><span class="tag">Google Colab</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">// experience</div>
+  <div class="exp-block">
+    <div class="exp-title">Software Development Intern · ECLearnix EdTech</div>
+    <div class="exp-meta">Nov 2025 – Feb 2026</div>
+    <p class="exp-desc">Resolved recurring API and DB failures through root cause analysis, reducing workflow failures by 40%. Delivered full-stack JS features across 2-week Agile sprints, covering code review, testing, and release cycles.</p>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">// achievements</div>
+  <div class="awards-grid">
+    <div class="award-card">
+      <i class="ti ti-trophy award-icon" aria-hidden="true"></i>
+      <div class="award-text"><span class="award-rank">2nd runner-up</span><br>Ekathon: Health AI — eka.care × AWS · 2026</div>
+    </div>
+    <div class="award-card">
+      <i class="ti ti-medal award-icon" aria-hidden="true"></i>
+      <div class="award-text"><span class="award-rank">top 40 / 1245 teams</span><br>WitchHunt 2026 · Top 10 Health Track · Infosys Springboard</div>
+    </div>
+    <div class="award-card">
+      <i class="ti ti-award award-icon" aria-hidden="true"></i>
+      <div class="award-text"><span class="award-rank">1st runner-up</span><br>Technical Business Case-a-Thon · BNMIT · 2025</div>
+    </div>
+    <div class="award-card">
+      <i class="ti ti-flag award-icon" aria-hidden="true"></i>
+      <div class="award-text"><span class="award-rank">top 50</span><br>Smart India Hackathon Internal · Govt. of India · 2025</div>
+    </div>
+    <div class="award-card">
+      <i class="ti ti-star award-icon" aria-hidden="true"></i>
+      <div class="award-text"><span class="award-rank">top 10</span><br>IEEE Returning Mothers Ideathon · VNRVJIET · 2025</div>
+    </div>
+    <div class="award-card">
+      <i class="ti ti-trophy award-icon" aria-hidden="true"></i>
+      <div class="award-text"><span class="award-rank">winners</span><br>Technovate for India · Times of India × Talrop · 2024</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">// certifications</div>
+  <div class="certs-row">
+    <span class="cert-chip">AI for Management — NPTEL IIT Madras &nbsp;<span class="cert-score">91% · top 2%</span></span>
+    <span class="cert-chip">Smart Cities — NPTEL IIT Indore &nbsp;<span class="cert-score">95%</span></span>
+    <span class="cert-chip">DSA — NPTEL Elite · IIT Kanpur</span>
+  </div>
+</div>
+
+<script>
+const phrases = [
+  "building AI that ships to real people",
+  "healthcare · maternal health · edtech",
+  "full-stack + ML · BMSIT '27",
+  "open to AI / SWE internships"
+];
+let pi = 0, ci = 0, deleting = false;
+const el = document.getElementById("tagline");
+function type() {
+  const current = phrases[pi];
+  if (!deleting) {
+    el.textContent = current.slice(0, ci + 1);
+    ci++;
+    if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
+    setTimeout(type, 55);
+  } else {
+    el.textContent = current.slice(0, ci - 1);
+    ci--;
+    if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(type, 300); return; }
+    setTimeout(type, 28);
+  }
+}
+type();
+</script>
